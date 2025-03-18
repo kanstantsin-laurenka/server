@@ -24,6 +24,9 @@ jobs:
       - name: Archive deployable artifact
         run: zip -r deployable-artifact.zip . -x "*.git*" "node_modules/*"
 
+      - name: Clear GitHub Actions cache
+        run: sudo rm -rf /home/runner/work/_actions
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
