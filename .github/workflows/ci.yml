@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Archive deployable artifact
+        run: zip -r deployable-artifact.zip . -x "*.git*" "node_modules/*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: node-app-artifact
+          path: deployable-artifact.zip
