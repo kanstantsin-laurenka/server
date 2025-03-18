@@ -1,34 +1,29 @@
-name: CI/CD Pipeline
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-      - name: Setup Node.js
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Archive deployable artifact
-        run: zip -r deployable-artifact.zip . -x "*.git*" "node_modules/*"
-
-      - name: Clear GitHub Actions cache
-        run: sudo rm -rf /home/runner/work/_actions
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app-artifact
-          path: deployable-artifact.zip
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
