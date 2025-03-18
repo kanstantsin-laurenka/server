@@ -25,7 +25,7 @@ jobs:
         run: zip -r deployable-artifact.zip . -x "*.git*" "node_modules/*"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: node-app-artifact
           path: deployable-artifact.zip
