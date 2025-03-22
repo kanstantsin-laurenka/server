@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const port = process.env.PORT || 3000;
 
 const imageRoutes = require('./routes/images');
 
@@ -9,6 +10,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', imageRoutes);
-app.listen(80, () => {
-  console.log('Server running on port 80');
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
