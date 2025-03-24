@@ -60,9 +60,9 @@ exports.processQueueBatch = async () => {
         New Image Uploaded!
         
         Size: ${body.size} bytes
-        Name: ${body.fileName}
+        Name: ${body.name}
         Extension: ${body.extension}
-        Download: http://webapp-Appli-AjCp5xGw8IZS-179998492.us-east-1.elb.amazonaws.com/image/${body.fileName}
+        Download: http://webapp-Appli-AjCp5xGw8IZS-179998492.us-east-1.elb.amazonaws.com/image/${body.name}${body.extension}
       `;
       
       await sns.publish({
