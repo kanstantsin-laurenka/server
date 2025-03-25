@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
+const axios = require('axios');
 const router = express.Router();
-const upload = multer(); // In-memory
+const upload = multer();
 
 const s3 = require('../services/s3');
 const db = require('../services/db');
@@ -68,5 +69,14 @@ router.get('/unsubscribe/:email', async (req, res) => {
     res.status(500).json({ error: 'Unsubscribe failed', details: err.message });
   }
 })
+
+router.get('/trigger-lambda', async (req, res) => {
+  try {
+    const response = await axios.get('https://flpavliafc.execute-api.us-east-1.amazonaws.com/webapp-DataConsistencyFunction-stage');
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: 'Trigger lambda function failed', details: err.message });
+  }
+});
 
 module.exports = router;
