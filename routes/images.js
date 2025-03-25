@@ -70,7 +70,7 @@ router.get('/unsubscribe/:email', async (req, res) => {
   }
 })
 
-router.get('/trigger-lambda', async (req, res) => {
+router.get('/triggerlambda', async (req, res) => {
   try {
     const response = await axios.get('https://flpavliafc.execute-api.us-east-1.amazonaws.com/webapp-DataConsistencyFunction-stage');
     res.json(response.data);
