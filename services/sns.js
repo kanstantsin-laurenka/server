@@ -43,40 +43,40 @@ exports.publishSqsMessage = async (file) => {
   }).promise();
 }
 
-exports.processQueueBatch = async () => {
-  try {
-    const response = await sqs.receiveMessage({
-      QueueUrl: queueUrl,
-      MaxNumberOfMessages: 10,
-      WaitTimeSeconds: 0,
-    }).promise();
-    
-    const messages = response.Messages || [];
-    
-    for (const msg of messages) {
-      const body = JSON.parse(msg.Body);
-      
-      const text = `
-        New Image Uploaded!
-        
-        Size: ${body.size} bytes
-        Name: ${body.name}
-        Extension: ${body.extension}
-        Download: http://webapp-Appli-AjCp5xGw8IZS-179998492.us-east-1.elb.amazonaws.com/image/${body.name}${body.extension}
-      `;
-      
-      await sns.publish({
-        TopicArn: topicArn,
-        Message: text,
-        Subject: 'Image Upload Notification',
-      }).promise();
-      
-      await sqs.deleteMessage({
-        QueueUrl: queueUrl,
-        ReceiptHandle: msg.ReceiptHandle,
-      }).promise();
-    }
-  } catch (err) {
-    console.error('[Queue Processor] Error:', err);
-  }
-}
+// exports.processQueueBatch = async () => {
+//   try {
+//     const response = await sqs.receiveMessage({
+//       QueueUrl: queueUrl,
+//       MaxNumberOfMessages: 10,
+//       WaitTimeSeconds: 0,
+//     }).promise();
+//
+//     const messages = response.Messages || [];
+//
+//     for (const msg of messages) {
+//       const body = JSON.parse(msg.Body);
+//
+//       const text = `
+//         New Image Uploaded!
+//
+//         Size: ${body.size} bytes
+//         Name: ${body.name}
+//         Extension: ${body.extension}
+//         Download: http://webapp-Appli-AjCp5xGw8IZS-179998492.us-east-1.elb.amazonaws.com/image/${body.name}${body.extension}
+//       `;
+//
+//       await sns.publish({
+//         TopicArn: topicArn,
+//         Message: text,
+//         Subject: 'Image Upload Notification',
+//       }).promise();
+//
+//       await sqs.deleteMessage({
+//         QueueUrl: queueUrl,
+//         ReceiptHandle: msg.ReceiptHandle,
+//       }).promise();
+//     }
+//   } catch (err) {
+//     console.error('[Queue Processor] Error:', err);
+//   }
+// }
