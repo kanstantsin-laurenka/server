@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - cd server && npm install && cd ..
+  build:
+    commands:
+      - cd server && zip -r ../artifacts.zip . && cd ..
+      - sam package --s3-bucket webapp.kanstantsin.laurenka --template-file samTemplate.yml --output-template-file packaged-samTemplate.yml
+  post_build:
+    commands:
+      - echo "Сборка завершена."
+artifacts:
+  files:
+    - artifacts.zip
+    - packaged-samTemplate.yml
