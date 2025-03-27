@@ -10,8 +10,7 @@ phases:
     commands:
       - echo Build started on `date`
       - cd server && zip -r ../artifacts.zip . && cd ..
-      - export SAM_CLI_RESOLVE_S3=0
-      - sam package --s3-bucket webapp.kanstantsin.laurenka --template-file samTemplate.yml --output-template-file packaged-samTemplate.yml
+      - sam package --template-file samTemplate.yml --output-template-file packaged-samTemplate.yml
   post_build:
     commands:
       - echo Build completed on `date`
