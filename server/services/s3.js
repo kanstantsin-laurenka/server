@@ -19,7 +19,7 @@ exports.downloadFromS3 = (key) => {
 };
 
 exports.deleteFromS3 = (key) => {
-  console.log(123);
+  console.log(12);
   return s3.deleteObject({
     Bucket: process.env.S3_BUCKET_NAME,
     Key: key
