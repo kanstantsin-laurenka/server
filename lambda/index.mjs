@@ -56,7 +56,7 @@ const processRecords = async (records) => {
     
     await sns.send(new PublishCommand({
       TopicArn: TOPIC_ARN_NAME,
-      Subject: "Image Upload Notification",
+      Subject: "Image Upload Notification FROM CHANGED LAMBDA CODE",
       Message: text,
     }));
     
